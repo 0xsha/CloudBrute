@@ -154,7 +154,7 @@ Read the usage.
 Make sure you read the usage correctly, and if you think you found a bug open an issue. 
 
 ##### When I use proxies, I get too many errors, or it's too slow?
-It's because you use public proxies, use private and higher quality proxies. You can use [ProxyFor]("https://github.com/0xsha/proxyfor") to verify the good proxies with your chosen provider. 
+It's because you use public proxies, use private and higher quality proxies. You can use [ProxyFor](https://github.com/0xsha/proxyfor) to verify the good proxies with your chosen provider. 
 
 ## Credits 
 
