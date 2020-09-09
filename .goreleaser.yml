@@ -22,7 +22,7 @@ archives:
           format: zip
     files:
         - data/*
-        - config/*
+        - config/**/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
