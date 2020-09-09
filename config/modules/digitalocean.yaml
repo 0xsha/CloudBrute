@@ -1,0 +1,15 @@
+regions: [
+    "nyc1",
+    "nyc2",
+    "nyc3",
+    "ams1",
+    "ams2",
+    "ams3",
+    "sfo1",
+    "sgp1",
+    "lon1",
+  ]
+
+storage_urls: []
+app_urls: []
+region_urls: ["digitaloceanspaces.com"]

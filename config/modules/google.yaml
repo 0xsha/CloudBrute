@@ -1,0 +1,24 @@
+app_urls: [ "appspot.com"]
+storage_urls: ["storage.googleapis.com"]
+regions: []
+region_urls: []
+
+#  we don't need to brute these as we can always use main urls .
+#  asia-east2
+#  asia-northeast1
+#  asia-northeast2
+#  asia-northeast3
+#  asia-south1
+#  asia-southeast2
+#  australia-southeast1
+#  europe-west
+#  europe-west2
+#  europe-west3
+#  europe-west6
+#  northamerica-northeast1
+#  southamerica-east1
+#  us-central
+#  us-east1
+#  us-east4
+#  us-west2
+#  us-west4
