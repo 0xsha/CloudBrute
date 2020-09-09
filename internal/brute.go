@@ -150,7 +150,7 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 
 }
 
-func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDetails) {
+func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDetails , output string) {
 
 	result := make(chan string)
 	reqs := make(chan string, len(urls)) // buffered
@@ -169,7 +169,7 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 	}()
 
 
-
+	var results []string
 
 	// parsing http codes
 	// 500 , 502 server error
@@ -184,16 +184,23 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 			if res != "err" {
 				if strings.Contains(res, "200") {
 					log.Info().Msg("Open : " + "[response code :" + res +"]")
+					results = append(results,"Open : " + "[response code :" + res +"]")
 				}
 				if strings.Contains(res, "301") || strings.Contains(res, "402") {
 					log.Warn().Msg("Redirect : " + "[response code :" + res +"]")
+					results = append(results,"Redirect : " + "[response code :" + res +"]")
+
 				}
 				if strings.Contains(res, "400") || strings.Contains(res, "401") ||
 					strings.Contains(res, "403") {
 					log.Warn().Msg("Protected : " + "[response code :" + res +"]")
+					results = append(results,"Protected : " + "[response code :" + res +"]")
+
 				}
 				if strings.Contains(res, "500") || strings.Contains(res, "502") {
 					log.Warn().Msg("Server error :" + "[response code :" + res +"]")
+					results = append(results,"Server error :" + "[response code :" + res +"]")
+
 				}
 			}
 
@@ -204,9 +211,16 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 			bar.Set(len(urls))
 			bar.Finish()
 
+			if len(results) >0 {
+
+				WriteResultsToFile(results , output)
+			}
+
+
 			return
 		}
 	}
+
 
 
 

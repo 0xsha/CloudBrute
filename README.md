@@ -130,7 +130,8 @@ If a cloud provider is not detected or want force searching on a specific provid
 ```
 CloudBrute -d target.com -k keyword -t 80 -T 10 -w -c amazon
 ```
-
+After execution CloudBrute will write to the same directory with following format.
+```target-2020-09-09T17-20-18.txt```
 
 ## in action
 

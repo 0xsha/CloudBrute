@@ -171,7 +171,9 @@ func main() {
 	}
 
 
-	engine.AsyncHTTPHead(urls, *threads, *timeout , details)
+	output := engine.GenerateOutputName(*keyword)
+
+	engine.AsyncHTTPHead(urls, *threads, *timeout , details , output)
 
 
 }
