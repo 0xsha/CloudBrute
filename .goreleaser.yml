@@ -16,12 +16,12 @@ archives:
       windows: Windows
       386: i386
       amd64: x86_64
-  - format_overrides:
-    - goos: windows
-      format: zip
-  - files:
-    - data/*
-    - config/*
+    format_overrides:
+        - goos: windows
+          format: zip
+    files:
+        - data/*
+        - config/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
