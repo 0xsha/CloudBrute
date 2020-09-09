@@ -132,7 +132,10 @@ CloudBrute -d target.com -k keyword -t 80 -T 10 -w -c amazon
 ```
 
 
+## in action
 
+Please note debug mode -D only used for sake of demo. It makes execution very slow. 
+[![asciicast](https://asciinema.org/a/6tPk33WjgT4GUeCuBKpk1iQjz.svg)](https://asciinema.org/a/6tPk33WjgT4GUeCuBKpk1iQjz)
 
 
 ##  How to contribute
