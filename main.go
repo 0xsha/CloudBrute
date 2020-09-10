@@ -72,7 +72,6 @@ func main() {
 
 	mode := parser.String("m", "mode",
 		&argparse.Options{
-			Default:  1,
 			Required: false,
 			Help:     "storage or app"})
 
@@ -114,6 +113,13 @@ func main() {
 	} else {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: ioutil.Discard})
 		zerolog.SetGlobalLevel(zerolog.PanicLevel)
+	}
+
+	// check mode
+
+	if *mode != "storage" && *mode != "app" {
+
+		log.Fatal().Msg("Invalid mode use app or storage")
 	}
 
 	// initialize config.yaml
