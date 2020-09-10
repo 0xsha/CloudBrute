@@ -12,4 +12,5 @@ regions: [
 
 storage_urls: [ ]
 app_urls: [ ]
-region_urls: [ "digitaloceanspaces.com" ]
+storage_region_urls: [ "digitaloceanspaces.com" ]
+app_region_urls: []

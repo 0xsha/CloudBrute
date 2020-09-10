@@ -46,4 +46,5 @@ app_urls:
       "cloudapp.net",
       "p.azurewebsites.net" ]
 
-region_urls: [ "cloudapp.azure.com" ]
+app_region_urls: [ "cloudapp.azure.com" ]
+storage_region_urls: [ ]

@@ -1,4 +1,5 @@
 regions: [ "us-east-1" , "eu-central-1", "ap-south-1" ]
 storage_urls: [ ]
 app_urls: [ ]
-region_urls: [ "linodeobjects.com" ]
+storage_region_urls: [ "linodeobjects.com" ]
+app_region_urls: []

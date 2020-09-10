@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/rs/zerolog/log"
 	"math/rand"
 	"os"
@@ -59,45 +58,46 @@ func SelectRandomItem(agents []string) string {
 
 }
 
-func WriteResultsToFile(results []string, output string) {
+//func WriteResultsToFile(results []string, output string) {
+//
+//	file, err := os.OpenFile(output+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+//	defer file.Close()
+//
+//	if err != nil {
+//		log.Fatal().Err(err).Msg("failed creating file")
+//	}
+//
+//	lineWriter := bufio.NewWriter(file)
+//
+//	for _, result := range results {
+//		_, _ = lineWriter.WriteString(result + "\n")
+//	}
+//
+//	lineWriter.Flush()
+//
+//}
 
-	file, err := os.OpenFile(output+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	defer file.Close()
+//func GenerateOutputName(output string) string {
+//
+//	t := time.Now()
+//	result := fmt.Sprintf("%s-%d-%02d-%02dT%02d-%02d-%02d",
+//		output, t.Year(), t.Month(), t.Day(),
+//		t.Hour(), t.Minute(), t.Second())
+//
+//	return result
+//}
 
-	if err != nil {
-		log.Fatal().Err(err).Msg("failed creating file")
-	}
-
-	lineWriter := bufio.NewWriter(file)
-
-	for _, result := range results {
-		_, _ = lineWriter.WriteString(result + "\n")
-	}
-
-	lineWriter.Flush()
-
-}
-
-func Unique(input []string) []string {
-	unique := make(map[string]bool, len(input))
-	list := make([]string, len(unique))
-	for _, el := range input {
-		if len(el) != 0 {
-			if !unique[el] {
-				list = append(list, el)
-				unique[el] = true
-			}
-		}
-	}
-	return list
-}
-
-func GenerateOutputName(output string) string {
-
-	t := time.Now()
-	result := fmt.Sprintf("%s-%d-%02d-%02dT%02d-%02d-%02d",
-		output, t.Year(), t.Month(), t.Day(),
-		t.Hour(), t.Minute(), t.Second())
-
-	return result
-}
+//func Unique(input []string) []string {
+//	unique := make(map[string]bool, len(input))
+//	list := make([]string, len(unique))
+//	for _, el := range input {
+//		if len(el) != 0 {
+//			if !unique[el] {
+//				list = append(list, el)
+//				unique[el] = true
+//			}
+//		}
+//	}
+//	return list
+//}
+//

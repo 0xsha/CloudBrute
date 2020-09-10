@@ -2,13 +2,13 @@ package internal
 
 import (
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"github.com/cheggaaa/pb"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/net/proxy"
 	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -178,33 +178,33 @@ func AsyncHTTPHead(urls []string, threads int, timeout int, details RequestDetai
 				}
 
 				if strings.Contains(res, "200") {
-					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
-					log.Info().Msg("Open : " + "[response code :" + res + "]")
+					out = fmt.Sprintf("%s:%s - %s", status,"Open", domain)
+					log.Info().Msg(out)
 				}
 				if strings.Contains(res, "301") || strings.Contains(res, "402") {
-					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
-					log.Warn().Msg("Redirect : " + "[response code :" + res + "]")
+					out = fmt.Sprintf("%s:%s - %s", status,"Redirect", domain)
+					log.Warn().Msg(out)
 
 				}
 				if strings.Contains(res, "400") || strings.Contains(res, "401") ||
 					strings.Contains(res, "403") {
-					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
-					log.Warn().Msg("Protected : " + "[response code :" + res + "]")
+					out = fmt.Sprintf("%s:%s - %s",  status , "Protected" , domain)
+					log.Warn().Msg(out)
 
 				}
 				if strings.Contains(res, "500") || strings.Contains(res, "502") {
-					out = fmt.Sprintf("%s:%s - %s", "Open", status, res)
-					log.Warn().Msg("Server error :" + "[response code :" + res + "]")
+					out = fmt.Sprintf("%s:%s - %s", status,"Server Error", res)
+					log.Warn().Msg(out)
 				}
 
 				if out != "" {
-					AppendTo(output, out)
+					_, _ = AppendTo(output, out)
 				}
 
 			}
 
 		case <-time.After(time.Duration(timeout) * time.Second):
-			fmt.Fprintf(os.Stderr, "timeout")
+			log.Warn().Msg("TimeOut")
 			bar.Increment()
 		case <-quit:
 			bar.Set(len(urls))
@@ -219,7 +219,7 @@ func AsyncHTTPHead(urls []string, threads int, timeout int, details RequestDetai
 
 }
 
-func GenerateMutatedUrls(wordListPath string, level int, provider string, providerPath string, target string, environments []string) ([]string, error) {
+func GenerateMutatedUrls(wordListPath string, mode string, provider string, providerPath string, target string, environments []string) ([]string, error) {
 
 	//envs := []string{"test", "dev", "prod", "stage"}
 	words, err := ReadTextFile(wordListPath)
@@ -230,6 +230,7 @@ func GenerateMutatedUrls(wordListPath string, level int, provider string, provid
 	permutations := []string{"%s-%s-%s", "%s-%s.%s", "%s-%s%s", "%s.%s-%s", "%s.%s.%s"}
 
 	var compiled []string
+
 
 	for _, env := range environments {
 
@@ -263,12 +264,62 @@ func GenerateMutatedUrls(wordListPath string, level int, provider string, provid
 
 	var finalUrls []string
 
-	// @NOTE start to decide level here 0,1,2
-	if level >= 1 {
-		if len(providerConfig.Regions) > 0 {
+
+	if mode == "storage"{
+
+		if len(providerConfig.StorageUrls) < 1 && len(providerConfig.StorageRegionUrls) < 1  {
+			return nil,errors.New("storage are not supported on :" + provider )
+		}
+
+		if len(providerConfig.StorageUrls) > 0 {
+
+			for _, app := range providerConfig.StorageUrls {
+
+				for _, word := range compiled {
+					finalUrls = append(finalUrls, word+"."+app)
+				}
+			}
+		}
+
+
+		if len(providerConfig.StorageRegionUrls) > 0 {
+
+				for _, region := range providerConfig.Regions {
+
+					for _, regionUrl := range providerConfig.StorageRegionUrls {
+
+						for _, word := range compiled {
+
+							finalUrls = append(finalUrls, word+"."+region+"."+regionUrl)
+						}
+					}
+				}
+
+		}
+
+	}
+
+	if mode == "app"{
+
+		if len(providerConfig.APPUrls) < 1 && len(providerConfig.AppRegionUrls) < 1  {
+			return nil,errors.New("storage are not supported on :" + provider )
+		}
+
+
+		if len(providerConfig.APPUrls) > 0 {
+			for _, app := range providerConfig.APPUrls {
+
+				for _, word := range compiled {
+					finalUrls = append(finalUrls, word+"."+app)
+				}
+			}
+		}
+
+		if len(providerConfig.AppRegionUrls) > 0 {
+
 			for _, region := range providerConfig.Regions {
 
-				for _, regionUrl := range providerConfig.RegionUrls {
+				for _, regionUrl := range providerConfig.AppRegionUrls {
 
 					for _, word := range compiled {
 
@@ -276,31 +327,11 @@ func GenerateMutatedUrls(wordListPath string, level int, provider string, provid
 					}
 				}
 			}
+
 		}
+
 	}
 
-	if level >= 2 {
-		if len(providerConfig.StorageUrls) > 0 {
-			for _, storage := range providerConfig.StorageUrls {
-
-				for _, word := range compiled {
-					finalUrls = append(finalUrls, word+"."+storage)
-				}
-			}
-		}
-	}
-
-	if level >= 3 {
-		if len(providerConfig.APPUrls) > 0 {
-			for _, app := range providerConfig.APPUrls {
-
-				for _, word := range compiled {
-					finalUrls = append(finalUrls, word+"."+app)
-				}
-
-			}
-		}
-	}
 
 	return finalUrls, nil
 

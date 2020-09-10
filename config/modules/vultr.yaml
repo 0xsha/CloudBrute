@@ -1,4 +1,5 @@
 regions: [ "ewr1" ]
 storage_urls: [ ]
 app_urls: [ ]
-region_urls: [ "vultrobjects.com" ]
+storage_region_urls: [ "vultrobjects.com" ]
+app_region_url: [ ]

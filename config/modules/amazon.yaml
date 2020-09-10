@@ -26,4 +26,5 @@ regions: [
 ]
 app_urls: [ "awsapps.com" ]
 storage_urls: [ "s3.amazonaws.com" ]
-region_urls: [ "amazonaws.com" ]
+app_region_urls: [ "amazonaws.com" ]
+storage_region_urls: []

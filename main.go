@@ -13,8 +13,10 @@ import (
 )
 
 func main() {
-	parser := argparse.NewParser("CloudBrute", "Awesome Cloud Enumerator")
 
+
+	// parse arguments
+	parser := argparse.NewParser("CloudBrute", "Awesome Cloud Enumerator")
 	domain := parser.String("d", "domain",
 		&argparse.Options{
 			Required: true,
@@ -68,11 +70,11 @@ func main() {
 			Help:     "suppress all output",
 			Default:  false})
 
-	level := parser.Int("L", "level",
+	mode := parser.String("m", "mode",
 		&argparse.Options{
 			Default:  1,
 			Required: false,
-			Help:     "Set depth level for speed up the process"})
+			Help:     "storage or app"})
 
 	output := parser.String("o", "output",
 		&argparse.Options{
@@ -99,10 +101,10 @@ func main() {
 ██║     ██║     ██║   ██║██║   ██║██║  ██║██╔══██╗██╔══██╗██║   ██║   ██║   ██╔══╝  
 ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝██████╔╝██║  ██║╚██████╔╝   ██║   ███████╗
  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝
-						V 1.0.0
+						V 1.0.3
 `
 	if !*quite {
-		fmt.Fprintf(os.Stderr, banner)
+		_, _ = fmt.Fprintf(os.Stderr, banner)
 	}
 
 	// beautify the results
@@ -174,7 +176,7 @@ func main() {
 
 	log.Info().Msg(provider + " detected")
 
-	urls, err := engine.GenerateMutatedUrls(*wordList, *level, provider, providerPath, *keyword, config.Environments)
+	urls, err := engine.GenerateMutatedUrls(*wordList, *mode, provider, providerPath, *keyword, config.Environments)
 
 	if err != nil {
 		log.Fatal().Err(err).Msg("Exiting...")
