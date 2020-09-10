@@ -139,9 +139,7 @@ CloudBrute -d target.com -k keyword -m storage -t 80 -T 10 -w -c amazon -o targe
 
 ## in action
 
-Please note debug mode -D only used for sake of demo. It makes execution very slow. 
-[![asciicast](https://asciinema.org/a/6tPk33WjgT4GUeCuBKpk1iQjz.svg)](https://asciinema.org/a/6tPk33WjgT4GUeCuBKpk1iQjz)
-
+[![asciicast](https://asciinema.org/a/QIYRNgJMKhGX3woUTB3kh0HmC.svg)](https://asciinema.org/a/QIYRNgJMKhGX3woUTB3kh0HmC)
 
 ##  How to contribute
 - Add a module or fix something and then pull request.
