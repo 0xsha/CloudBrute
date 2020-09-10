@@ -73,6 +73,7 @@ func main() {
 	mode := parser.String("m", "mode",
 		&argparse.Options{
 			Required: false,
+			Default: "storage",
 			Help:     "storage or app"})
 
 	output := parser.String("o", "output",

@@ -118,7 +118,7 @@ Arguments:
   -a  --randomagent   user agent randomization
   -D  --debug         show debug logs. Default: false
   -q  --quite         suppress all output. Default: false
-  -m  --mode          storage or app. Default: 1
+  -m  --mode          storage or app. Default: storage
   -o  --output        Output file. Default: out.txt
   -C  --configFolder  Config path. Default: config
 
