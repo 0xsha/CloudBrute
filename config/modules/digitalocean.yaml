@@ -8,8 +8,8 @@ regions: [
     "sfo1",
     "sgp1",
     "lon1",
-  ]
+]
 
-storage_urls: []
-app_urls: []
-region_urls: ["digitaloceanspaces.com"]
+storage_urls: [ ]
+app_urls: [ ]
+region_urls: [ "digitaloceanspaces.com" ]

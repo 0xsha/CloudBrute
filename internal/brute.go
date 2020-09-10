@@ -8,30 +8,27 @@ import (
 	"golang.org/x/net/proxy"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.ProgressBar , details *RequestDetails) {
-
+func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.ProgressBar, details *RequestDetails) {
 
 	for link := range reqs {
-
 
 		log.Debug().Msg(link)
 		if len(details.ProxyList) > 0 {
 
-		  	chosenProxy := SelectRandomItem(details.ProxyList)
+			chosenProxy := SelectRandomItem(details.ProxyList)
 
-		  	if details.ProxyType == "socks5" {
-
+			if details.ProxyType == "socks5" {
 
 				log.Debug().Msg("requesting through socks5 proxy : " + chosenProxy)
 
-
 				dialSocksProxy, err := proxy.SOCKS5("tcp", chosenProxy, nil, proxy.Direct)
-				socksTransport := &http.Transport{Dial: dialSocksProxy.Dial, DisableKeepAlives: true , TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
+				socksTransport := &http.Transport{Dial: dialSocksProxy.Dial, DisableKeepAlives: true, TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
 
 				if err != nil {
 					continue
@@ -41,12 +38,12 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 					Transport: socksTransport,
 				}
 
-				req , _ := http.NewRequest("HEAD","https://" +link ,nil)
+				req, _ := http.NewRequest("HEAD", "https://"+link, nil)
 
-				if len(details.RandomAgent) >0 {
+				if len(details.RandomAgent) > 0 {
 
 					chosenAgent := SelectRandomItem(details.RandomAgent)
-					req.Header.Set("User-Agent",chosenAgent)
+					req.Header.Set("User-Agent", chosenAgent)
 
 				}
 
@@ -65,29 +62,26 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 
 			}
 
-			if details.ProxyType == "http"{
+			if details.ProxyType == "http" {
 
-
-				proxyURL, _ := url.Parse("http://"+chosenProxy)
+				proxyURL, _ := url.Parse("http://" + chosenProxy)
 
 				log.Debug().Msg("requesting through http proxy : " + chosenProxy)
 
 				httpProxyClient := &http.Client{
 					Transport: &http.Transport{
 						DisableKeepAlives: true,
-						TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+						TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
 						Proxy:             http.ProxyURL(proxyURL),
 					},
 				}
 
+				req, _ := http.NewRequest("HEAD", "http://"+link, nil)
 
-
-				req , _ := http.NewRequest("HEAD","http://" +link ,nil)
-
-				if len(details.RandomAgent) >1 {
+				if len(details.RandomAgent) > 1 {
 
 					chosenAgent := SelectRandomItem(details.RandomAgent)
-					req.Header.Set("User-Agent",chosenAgent)
+					req.Header.Set("User-Agent", chosenAgent)
 					log.Debug().Msg("user-agent : " + chosenAgent)
 
 				}
@@ -105,26 +99,24 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 				bar.Increment()
 				results <- link + ":" + strconv.Itoa(resp.StatusCode)
 
-
 			}
 
 		} else {
 
 			client := http.Client{
 				Transport: &http.Transport{
-					DisableKeepAlives: true },
-			 }
+					DisableKeepAlives: true},
+			}
 
-			req , _ := http.NewRequest("HEAD","https://" +link ,nil)
+			req, _ := http.NewRequest("HEAD", "https://"+link, nil)
 
-			if len(details.RandomAgent) >0 {
+			if len(details.RandomAgent) > 0 {
 
 				chosenAgent := SelectRandomItem(details.RandomAgent)
-				req.Header.Set("User-Agent",chosenAgent)
+				req.Header.Set("User-Agent", chosenAgent)
 			}
 
 			resp, err := client.Do(req)
-
 
 			if err != nil {
 
@@ -139,18 +131,15 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 			results <- link + ":" + strconv.Itoa(resp.StatusCode)
 		}
 
-
 		if len(reqs) == len(results) {
 			quit <- 0
 		}
 
-
 	}
-
 
 }
 
-func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDetails , output string) {
+func AsyncHTTPHead(urls []string, threads int, timeout int, details RequestDetails, output string) {
 
 	result := make(chan string)
 	reqs := make(chan string, len(urls)) // buffered
@@ -159,7 +148,7 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 	bar := pb.StartNew(len(urls))
 
 	for i := 0; i < threads; i++ {
-		go HandleHTTPRequests(reqs, result, quit , bar , &details)
+		go HandleHTTPRequests(reqs, result, quit, bar, &details)
 	}
 
 	go func() {
@@ -168,8 +157,7 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 		}
 	}()
 
-
-	var results []string
+	//var results []string
 
 	// parsing http codes
 	// 500 , 502 server error
@@ -182,57 +170,61 @@ func AsyncHTTPHead(urls []string, threads int, timeout int , details RequestDeta
 		select {
 		case res := <-result:
 			if res != "err" {
+				domain := res
+				var out, status string
+				if strings.Contains(res, ":") {
+					domain = strings.Split(res, ":")[0]
+					status = strings.Split(res, ":")[1]
+				}
+
 				if strings.Contains(res, "200") {
-					log.Info().Msg("Open : " + "[response code :" + res +"]")
-					results = append(results,"Open : " + "[response code :" + res +"]")
+					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
+					log.Info().Msg("Open : " + "[response code :" + res + "]")
 				}
 				if strings.Contains(res, "301") || strings.Contains(res, "402") {
-					log.Warn().Msg("Redirect : " + "[response code :" + res +"]")
-					results = append(results,"Redirect : " + "[response code :" + res +"]")
+					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
+					log.Warn().Msg("Redirect : " + "[response code :" + res + "]")
 
 				}
 				if strings.Contains(res, "400") || strings.Contains(res, "401") ||
 					strings.Contains(res, "403") {
-					log.Warn().Msg("Protected : " + "[response code :" + res +"]")
-					results = append(results,"Protected : " + "[response code :" + res +"]")
+					out = fmt.Sprintf("%s:%s - %s", "Open", status, domain)
+					log.Warn().Msg("Protected : " + "[response code :" + res + "]")
 
 				}
 				if strings.Contains(res, "500") || strings.Contains(res, "502") {
-					log.Warn().Msg("Server error :" + "[response code :" + res +"]")
-					results = append(results,"Server error :" + "[response code :" + res +"]")
-
+					out = fmt.Sprintf("%s:%s - %s", "Open", status, res)
+					log.Warn().Msg("Server error :" + "[response code :" + res + "]")
 				}
+
+				if out != "" {
+					AppendTo(output, out)
+				}
+
 			}
 
 		case <-time.After(time.Duration(timeout) * time.Second):
-			fmt.Println("timeout")
+			fmt.Fprintf(os.Stderr, "timeout")
 			bar.Increment()
 		case <-quit:
 			bar.Set(len(urls))
 			bar.Finish()
 
-			if len(results) >0 {
-
-				WriteResultsToFile(results , output)
-			}
-
-
+			//if len(results) >0 {
+			//	WriteResultsToFile(results , output)
+			//}
 			return
 		}
 	}
 
-
-
-
 }
 
-func GenerateMutatedUrls(wordListPath string, provider string, providerPath string, target string , environments []string) ([]string, error) {
-
+func GenerateMutatedUrls(wordListPath string, level int, provider string, providerPath string, target string, environments []string) ([]string, error) {
 
 	//envs := []string{"test", "dev", "prod", "stage"}
-	words ,err := ReadTextFile(wordListPath)
+	words, err := ReadTextFile(wordListPath)
 
-	if err!=nil{
+	if err != nil {
 		log.Fatal().Err(err).Msg("Exiting ...")
 	}
 	permutations := []string{"%s-%s-%s", "%s-%s.%s", "%s-%s%s", "%s.%s-%s", "%s.%s.%s"}
@@ -261,10 +253,9 @@ func GenerateMutatedUrls(wordListPath string, provider string, providerPath stri
 
 	}
 
-	providerConfig, err := InitCloudConfig(provider ,providerPath )
+	providerConfig, err := InitCloudConfig(provider, providerPath)
 
 	if err != nil {
-
 		log.Fatal().Err(err).Msg("Exiting...")
 	}
 
@@ -272,40 +263,42 @@ func GenerateMutatedUrls(wordListPath string, provider string, providerPath stri
 
 	var finalUrls []string
 
-	if len(providerConfig.Regions) > 0 {
+	// @NOTE start to decide level here 0,1,2
+	if level >= 1 {
+		if len(providerConfig.Regions) > 0 {
+			for _, region := range providerConfig.Regions {
 
-		for _, region := range providerConfig.Regions {
+				for _, regionUrl := range providerConfig.RegionUrls {
 
-			for _, regionUrl := range providerConfig.RegionUrls {
+					for _, word := range compiled {
 
-				for _, word := range compiled {
-
-					finalUrls =  append ( finalUrls, word + "." + region + "." + regionUrl)
+						finalUrls = append(finalUrls, word+"."+region+"."+regionUrl)
+					}
 				}
 			}
 		}
 	}
 
-	if len(providerConfig.StorageUrls) > 0 {
-		for _, storage := range providerConfig.StorageUrls {
+	if level >= 2 {
+		if len(providerConfig.StorageUrls) > 0 {
+			for _, storage := range providerConfig.StorageUrls {
 
-			for _, word := range compiled {
-
-				finalUrls = append(finalUrls, word+"."+storage)
-
+				for _, word := range compiled {
+					finalUrls = append(finalUrls, word+"."+storage)
+				}
 			}
-
 		}
 	}
 
-	if len(providerConfig.APPUrls) > 0 {
-		for _, app := range providerConfig.APPUrls {
+	if level >= 3 {
+		if len(providerConfig.APPUrls) > 0 {
+			for _, app := range providerConfig.APPUrls {
 
-			for _, word := range compiled {
+				for _, word := range compiled {
+					finalUrls = append(finalUrls, word+"."+app)
+				}
 
-				finalUrls =  append ( finalUrls, word + "." + app)
 			}
-
 		}
 	}
 

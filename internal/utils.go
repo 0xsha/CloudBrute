@@ -9,14 +9,14 @@ import (
 	"time"
 )
 
-func ReadTextFile(path string)  ([]string , error)  {
+func ReadTextFile(path string) ([]string, error) {
 
-	 var buffer []string
+	var buffer []string
 
-     file , err := os.Open(path)
-     if err!=nil{
-		 log.Fatal().Err(err).Msg("Exiting ...")
-	 }
+	file, err := os.Open(path)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Exiting ...")
+	}
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -25,14 +25,30 @@ func ReadTextFile(path string)  ([]string , error)  {
 	}
 
 	if err := scanner.Err(); err != nil {
-		return nil,err
+		return nil, err
 
 	}
-	return buffer , nil
+	return buffer, nil
 
 }
 
-func SelectRandomItem(agents []string)  string {
+// AppendTo append string to a file
+func AppendTo(filename string, data string) (string, error) {
+	// If the file doesn't exist, create it, or append to the file
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return "", err
+	}
+	if _, err := f.Write([]byte(data + "\n")); err != nil {
+		return "", err
+	}
+	if err := f.Close(); err != nil {
+		return "", err
+	}
+	return filename, nil
+}
+
+func SelectRandomItem(agents []string) string {
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -43,8 +59,7 @@ func SelectRandomItem(agents []string)  string {
 
 }
 
-func WriteResultsToFile(results []string, output string)  {
-
+func WriteResultsToFile(results []string, output string) {
 
 	file, err := os.OpenFile(output+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	defer file.Close()
@@ -60,7 +75,6 @@ func WriteResultsToFile(results []string, output string)  {
 	}
 
 	lineWriter.Flush()
-
 
 }
 
@@ -78,8 +92,7 @@ func Unique(input []string) []string {
 	return list
 }
 
-
-func GenerateOutputName(output string) string  {
+func GenerateOutputName(output string) string {
 
 	t := time.Now()
 	result := fmt.Sprintf("%s-%d-%02d-%02dT%02d-%02d-%02d",

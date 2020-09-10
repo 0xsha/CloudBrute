@@ -9,7 +9,7 @@ builds:
       - linux
       - windows
       - darwin
-    main: ./cmd/main.go
+    main: ./main.go
 archives:
   - replacements:
       darwin: Darwin
@@ -18,11 +18,11 @@ archives:
       386: i386
       amd64: x86_64
     format_overrides:
-        - goos: windows
-          format: zip
+      - goos: windows
+        format: zip
     files:
-        - data/*
-        - config/**/*
+      - data/*
+      - config/**/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:

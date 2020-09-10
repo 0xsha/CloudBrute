@@ -1,7 +1,7 @@
-app_urls: [ "appspot.com"]
-storage_urls: ["storage.googleapis.com"]
-regions: []
-region_urls: []
+app_urls: [ "appspot.com" ]
+storage_urls: [ "storage.googleapis.com" ]
+regions: [ ]
+region_urls: [ ]
 
 #  we don't need to brute these as we can always use main urls .
 #  asia-east2

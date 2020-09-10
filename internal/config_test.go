@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-
 func TestInitConfig(t *testing.T) {
 
 	want := new(Config)
@@ -22,11 +21,11 @@ func TestInitCloudConfig(t *testing.T) {
 
 	config := InitConfig("../config/config.yaml")
 
-	for _, provider := range config.Providers{
+	for _, provider := range config.Providers {
 
-		_ , err := InitCloudConfig(provider , "../config/modules/")
+		_, err := InitCloudConfig(provider, "../config/modules/")
 
-		if err != nil{
+		if err != nil {
 			t.Errorf("Cant load config for " + provider)
 		}
 	}
