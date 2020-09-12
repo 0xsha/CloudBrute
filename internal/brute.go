@@ -194,23 +194,23 @@ func AsyncHTTPHead(urls []string, threads int, timeout int, details RequestDetai
 					status = strings.Split(res, ":")[1]
 				}
 
-				if strings.Contains(res, "200") {
-					out = fmt.Sprintf("%s:%s - %s", status,"Open", domain)
+				if status == "200" {
+
+					out = fmt.Sprintf("%s: %s - %s", status,"Open", domain)
 					log.Info().Msg(out)
 				}
-				if strings.Contains(res, "301") || strings.Contains(res, "402") {
-					out = fmt.Sprintf("%s:%s - %s", status,"Redirect", domain)
+				if status == "301" || status == "302" {
+					out = fmt.Sprintf("%s: %s - %s", status,"Redirect", domain)
 					log.Warn().Msg(out)
 
 				}
-				if strings.Contains(res, "400") || strings.Contains(res, "401") ||
-					strings.Contains(res, "403") {
-					out = fmt.Sprintf("%s:%s - %s",  status , "Protected" , domain)
+				if status == "400" || status == "401" || status == "403"{
+					out = fmt.Sprintf("%s: %s - %s",   status,"Protected" , domain)
 					log.Warn().Msg(out)
 
 				}
-				if strings.Contains(res, "500") || strings.Contains(res, "502") {
-					out = fmt.Sprintf("%s:%s - %s", status,"Server Error", res)
+				if   status == "500" || status == "502" || status == "503" {
+					out = fmt.Sprintf("%s: %s - %s",status,"Server Error", domain)
 					log.Warn().Msg(out)
 				}
 
