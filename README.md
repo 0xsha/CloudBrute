@@ -165,6 +165,9 @@ Make sure you read the usage correctly, and if you think you found a bug open an
 ##### When I use proxies, I get too many errors, or it's too slow?
 It's because you use public proxies, use private and higher quality proxies. You can use [ProxyFor](https://github.com/0xsha/proxyfor) to verify the good proxies with your chosen provider. 
 
+#### too fast or too slow ?
+change -T (timeout) option to get best results for your run.
+
 ## Credits 
 
 Inspired by every single repo listed  [here](https://github.com/mxm0z/awesome-sec-s3)
