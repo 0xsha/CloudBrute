@@ -68,7 +68,7 @@ Alibaba:
 
 
 ## Usage
-Just download the release for your operation system and follow the usage.
+Just download the latest [release](https://github.com/0xsha/CloudBrute/releases) for your operation system and follow the usage.
 
 Usage:
 To make the best use of this tool, you have to understand how to configure it correctly. When you open your downloaded version, there is a config folder, and there is a config.YAML file in there.
@@ -135,6 +135,13 @@ If a cloud provider not detected or want force searching on a specific provider,
 ```
 CloudBrute -d target.com -k keyword -m storage -t 80 -T 10 -w -c amazon -o target_output.txt
 ```
+
+
+## Dev 
+- Clone the repo 
+- go build -o CloudBrute main.go
+- go test internal 
+
 
 
 ## in action

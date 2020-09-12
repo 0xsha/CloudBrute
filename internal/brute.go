@@ -38,7 +38,13 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 					Transport: socksTransport,
 				}
 
-				req, _ := http.NewRequest("HEAD", "https://"+link, nil)
+				req, err := http.NewRequest("HEAD", "https://"+link, nil)
+
+				if err!= nil{
+					results <- "err"
+					bar.Increment()
+					continue
+				}
 
 				if len(details.RandomAgent) > 0 {
 
@@ -52,7 +58,6 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 				if err != nil {
 
 					log.Err(err).Msg("err")
-
 					results <- "err"
 					bar.Increment()
 					continue
@@ -76,7 +81,13 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 					},
 				}
 
-				req, _ := http.NewRequest("HEAD", "http://"+link, nil)
+				req, err := http.NewRequest("HEAD", "http://"+link, nil)
+
+				if err!= nil{
+					results <- "err"
+					bar.Increment()
+					continue
+				}
 
 				if len(details.RandomAgent) > 1 {
 
@@ -108,7 +119,13 @@ func HandleHTTPRequests(reqs, results chan string, quit chan int, bar *pb.Progre
 					DisableKeepAlives: true},
 			}
 
-			req, _ := http.NewRequest("HEAD", "https://"+link, nil)
+			req, err := http.NewRequest("HEAD", "https://"+link, nil)
+
+			if err!= nil{
+				results <- "err"
+				bar.Increment()
+				continue
+			}
 
 			if len(details.RandomAgent) > 0 {
 

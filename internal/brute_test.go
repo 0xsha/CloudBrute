@@ -10,7 +10,7 @@ func TestGenerateMutatedUrls(t *testing.T) {
 
 	envs := []string{"test", "dev", "prod", "stage"}
 
-	got, err := GenerateMutatedUrls("../data/storage_small.txt", "amazon", "../config/modules/", "target", envs)
+	got, err := GenerateMutatedUrls("../data/storage_small.txt", "storage", "amazon", "../config/modules/", "target", envs)
 	if err != nil {
 
 		t.Errorf("Error generating urls %s", err)
