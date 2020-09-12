@@ -75,7 +75,7 @@ To make the best use of this tool, you have to understand how to configure it co
 It looks like this 
 ```yaml
 providers: ["amazon","alibaba","amazon","microsoft","digitalocean","linode","vultr","google"] # supported providers
-environments: ["test", "dev", "prod", "stage"] # used for mutations
+environments: [ "test", "dev", "prod", "stage" , "staging" , "bak" ] # used for mutations
 proxytype: "http"  # socks5 / http
 ipinfo: ""      # IPINFO.io API KEY
 ```
