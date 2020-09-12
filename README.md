@@ -70,7 +70,6 @@ Alibaba:
 ## Usage
 Just download the latest [release](https://github.com/0xsha/CloudBrute/releases) for your operation system and follow the usage.
 
-Usage:
 To make the best use of this tool, you have to understand how to configure it correctly. When you open your downloaded version, there is a config folder, and there is a config.YAML file in there.
 
 It looks like this 
@@ -165,7 +164,7 @@ Make sure you read the usage correctly, and if you think you found a bug open an
 ##### When I use proxies, I get too many errors, or it's too slow?
 It's because you use public proxies, use private and higher quality proxies. You can use [ProxyFor](https://github.com/0xsha/proxyfor) to verify the good proxies with your chosen provider. 
 
-#### too fast or too slow ?
+##### too fast or too slow ?
 change -T (timeout) option to get best results for your run.
 
 ## Credits 
