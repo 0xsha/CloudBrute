@@ -58,6 +58,23 @@ func SelectRandomItem(agents []string) string {
 
 }
 
+
+//// thanks https://golangcode.com/how-to-check-if-a-string-is-a-url/
+//func IsValidUrl(toTest string) bool {
+//	_, err := url.ParseRequestURI(toTest)
+//	if err != nil {
+//		return false
+//	}
+//
+//	u, err := url.Parse(toTest)
+//	if err != nil || u.Scheme == "" || u.Host == "" {
+//		return false
+//	}
+//
+//	return true
+//}
+
+
 //func WriteResultsToFile(results []string, output string) {
 //
 //	file, err := os.OpenFile(output+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)

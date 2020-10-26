@@ -3,6 +3,7 @@ module github.com/0xsha/cloudbrute
 go 1.15
 
 require (
+	github.com/PuerkitoBio/goquery v1.6.0
 	github.com/akamensky/argparse v1.2.2
 	github.com/cheggaaa/pb v1.0.29
 	github.com/ipinfo/go-ipinfo v0.0.0-20200706210721-8b290686e53e
@@ -12,4 +13,5 @@ require (
 	github.com/rs/zerolog v1.19.0
 	golang.org/x/net v0.0.0-20200904194848-62affa334b73
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
+	mvdan.cc/xurls/v2 v2.2.0
 )

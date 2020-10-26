@@ -28,7 +28,7 @@ type CloudConfig struct {
 	Regions     []string `yaml:"regions"`
 	APPUrls     []string `yaml:"app_urls"`
 	StorageUrls []string `yaml:"storage_urls"`
-	RegionUrls  []string `yaml:"region_urls"`
+	//RegionUrls  []string `yaml:"region_urls"`
 	AppRegionUrls  []string `yaml:"app_region_urls"`
 	StorageRegionUrls  []string `yaml:"storage_region_urls"`
 }

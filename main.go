@@ -101,7 +101,7 @@ func main() {
 ██║     ██║     ██║   ██║██║   ██║██║  ██║██╔══██╗██╔══██╗██║   ██║   ██║   ██╔══╝  
 ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝██████╔╝██║  ██║╚██████╔╝   ██║   ███████╗
  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝
-						V 1.0.5
+						V 1.0.7
 `
 	if !*quite {
 		_, _ = fmt.Fprintf(os.Stderr, banner)
@@ -167,19 +167,30 @@ func main() {
 
 	} else {
 
-		// Detect the cloud
-		cloud, err = engine.CloudDetect(*domain, apiKey)
+		// Detect the cloud using ip info
+		cloud, err = engine.CloudDetectIP(*domain, apiKey)
 		if err != nil {
-			log.Fatal().Err(err).Msg("Exiting...")
+			log.Error().Err(err).Msg("IP detection failed")
 		}
+
 
 	}
 
 	// Do we support the provider?
 	provider, err := engine.CheckSupportedCloud(cloud, config)
 	if err != nil {
-		log.Fatal().Err(err).Msg("Exiting...")
+		log.Warn().Msg("IP detection failed")
+
+		// Detect the cloud from HTML and JavaScript source codes
+		provider, err = engine.CloudDetectHTML(*domain, config , providerPath)
+
+		if err != nil {
+
+			log.Fatal().Err(err).Msg("Source detection failed as well use -c .")
+		}
+
 	}
+
 
 	log.Info().Msg(provider + " detected")
 

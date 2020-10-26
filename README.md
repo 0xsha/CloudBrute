@@ -15,7 +15,7 @@ The outcome is useful for bug bounty hunters, red teamers, and penetration teste
 ## Motivation 
 
 While working on [HunterSuite](https://huntersuite.io), and as part of the job, we are always thinking of something we can automate to make black-box security testing easier. We discussed this idea of creating a multiple platform cloud brute-force hunter.mainly to find open buckets, apps, and databases hosted on the clouds and possibly app behind proxy servers.   
-Here is the list issues we found with previous tools:
+Here is the list issues we tried to fix:
 
 - separated wordlists 
 - lack of proper concurrency 
@@ -94,7 +94,7 @@ After setting up your API key, you are ready to use CloudBrute.
 ██║     ██║     ██║   ██║██║   ██║██║  ██║██╔══██╗██╔══██╗██║   ██║   ██║   ██╔══╝  
 ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝██████╔╝██║  ██║╚██████╔╝   ██║   ███████╗
  ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝
-                                                V 1.0.3
+                                                V 1.0.7
 usage: CloudBrute [-h|--help] -d|--domain "<value>" -k|--keyword "<value>"
                   -w|--wordlist "<value>" [-c|--cloud "<value>"] [-t|--threads
                   <integer>] [-T|--timeout <integer>] [-p|--proxy "<value>"]

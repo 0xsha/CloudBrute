@@ -4,11 +4,17 @@ import (
 	"errors"
 	"github.com/ipinfo/go-ipinfo/ipinfo"
 	"github.com/rs/zerolog/log"
+	"io/ioutil"
+	"mvdan.cc/xurls/v2"
 	"net"
+	"net/http"
 	"strings"
 )
 
-func CloudDetect(domain string, key string) (string, error) {
+// next version maybe?
+//func CloudDetectJS()  { }
+
+func CloudDetectIP(domain string, key string) (string, error) {
 
 	authTransport := ipinfo.AuthTransport{Token: key}
 	httpClient := authTransport.Client()
@@ -72,6 +78,76 @@ func CloudDetect(domain string, key string) (string, error) {
 	//	if err!=nil{
 	//		log.Fatal(err)
 	//	}
+
+}
+
+
+func CloudDetectHTML(domain string, c *Config , providerPath string) (string, error) {
+
+	if !strings.HasPrefix(domain, "https://") {
+
+		domain = "https://" + domain
+	}
+
+	resp, err := http.Get(domain)
+	if err != nil {
+		return "", errors.New("can't connect to domain")
+	}
+
+	detected := ""
+
+	for _, provider := range c.Providers {
+
+		providerConfig, err := InitCloudConfig(provider, providerPath)
+
+		var allUrls []string
+		if err != nil {
+			log.Fatal().Err(err).Msg("Exiting...")
+		}
+
+		// append all urls for each provider
+		for _, itemURL := range providerConfig.APPUrls {
+			allUrls = append(allUrls, itemURL)
+		}
+		for _, itemURL := range providerConfig.StorageUrls {
+			allUrls = append(allUrls, itemURL)
+		}
+		for _, itemURL := range providerConfig.AppRegionUrls {
+			allUrls = append(allUrls, itemURL)
+		}
+		for _, itemURL := range providerConfig.StorageRegionUrls {
+			allUrls = append(allUrls, itemURL)
+		}
+
+		// make a dictionary
+		providersUrl := make(map[string][]string)
+		providersUrl[provider] = allUrls
+
+		// let's make it relaxed and not miss any possibility
+		rxRelaxed := xurls.Relaxed()
+		rep, _ := ioutil.ReadAll(resp.Body)
+		rx := rxRelaxed.FindAllString(string(rep), -1)
+
+		for _, linkItem := range rx {
+
+			for _, values := range providersUrl {
+
+				for _, value := range values {
+
+					if strings.Contains(linkItem, value) {
+						detected = provider
+						//log.Info().Msg(provider+" detected in source")
+						break
+					}
+				}
+			}
+		}
+
+		if detected != "" {
+			return provider, nil
+		}
+	}
+	return "", errors.New("no provider found in HTML")
 
 }
 
