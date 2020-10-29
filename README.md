@@ -28,7 +28,7 @@ Here is the list issues we tried to fix:
 - hard to use, poorly configured
 
 ## Features
-- Cloud detection (IPINFO API)
+- Cloud detection (IPINFO API and Source Code)
 - Supports all major providers
 - Black-Box (unauthenticated)
 - Fast (concurrent)
