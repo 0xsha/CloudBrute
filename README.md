@@ -6,6 +6,19 @@ The outcome is useful for bug bounty hunters, red teamers, and penetration teste
 
 ##### The complete writeup is available [here](https://0xsha.io/posts/introducing-cloudbrute-wild-hunt-on-the-clouds)
 
+
+
+## Cloud brute on the clouds?
+
+<p align="center">
+  <img alt="huntersuite" src="https://user-images.githubusercontent.com/23289085/101143253-35ea6b80-3649-11eb-9130-d1fc306c9a76.png" height="200" />
+  <p align="center">
+Enjoying this tool? Support it's development and take your game to the next level by using <a href="https://huntersuite.io">HunterSuite.io</a>
+  </p>
+</p>
+
+
+
 ## At a glance 
 
 ![CloudBrute](./assets/cloudbrute_digram.png)
