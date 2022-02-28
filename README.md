@@ -173,17 +173,6 @@ change -T (timeout) option to get best results for your run.
 
 
 
-## Cloud brute on the clouds?
-
-<p align="center">
-  <img alt="huntersuite" src="https://user-images.githubusercontent.com/23289085/101143253-35ea6b80-3649-11eb-9130-d1fc306c9a76.png" height="200" />
-  <p align="center">
-Enjoying this tool? Support it's development and take your game to the next level by using <a href="https://huntersuite.io">HunterSuite.io</a>
-  </p>
-</p>
-
-
-
 ## Credits 
 
 Inspired by every single repo listed  [here](https://github.com/mxm0z/awesome-sec-s3)
