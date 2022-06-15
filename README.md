@@ -7,8 +7,6 @@ The outcome is useful for bug bounty hunters, red teamers, and penetration teste
 The complete writeup is available. [here](https://0xsha.io/blog/introducing-cloudbrute-wild-hunt-on-the-clouds)
 
 
-
-
 ## At a glance 
 
 ![CloudBrute](./assets/cloudbrute_digram.png)
