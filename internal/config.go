@@ -15,7 +15,7 @@ type Config struct {
 	IPInfo       string   `yaml:"ipinfo"` // API KEY
 	ProxyType    string   `yaml:"proxytype"`
 	Providers    []string `yaml:"providers"`
-	Environments []string `yaml:"Environments"`
+	Environments []string `yaml:"environments"`
 }
 
 type RequestDetails struct {
