@@ -173,7 +173,7 @@ change -T (timeout) option to get best results for your run.
 
 ## Credits 
 
-Inspired by every single repo listed  [here](https://github.com/mxm0z/awesome-sec-s3)
+Inspired by every single repo listed  [here](https://github.com/mxm0z/awesome-sec-s3) .
 
 
 
