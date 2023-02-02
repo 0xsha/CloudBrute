@@ -16,7 +16,7 @@ The complete writeup is available. [here](https://0xsha.io/blog/introducing-clou
 ## Motivation 
 
 While working on [HunterSuite](https://huntersuite.io), and as part of the job, we are always thinking of something we can automate to make black-box security testing easier. We discussed this idea of creating a multiple platform cloud brute-force hunter.mainly to find open buckets, apps, and databases hosted on the clouds and possibly app behind proxy servers.   
-Here is the list issues we tried to fix:
+Here is the list issues on previous approaches we tried to fix:
 
 - separated wordlists 
 - lack of proper concurrency 
