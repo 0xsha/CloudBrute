@@ -12,7 +12,6 @@ The complete writeup is available. [here](https://0xsha.io/blog/introducing-clou
 ![CloudBrute](./assets/cloudbrute_digram.png)
 
 
-
 ## Motivation 
 
 we are always thinking of something we can automate to make black-box security testing easier. We discussed this idea of creating a multiple platform cloud brute-force hunter.mainly to find open buckets, apps, and databases hosted on the clouds and possibly app behind proxy servers.   
