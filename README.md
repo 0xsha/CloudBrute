@@ -4,6 +4,7 @@
 A tool to find a company (target) infrastructure, files, and apps on the top cloud providers (Amazon, Google, Microsoft, DigitalOcean, Alibaba, Vultr, Linode). 
 The outcome is useful for bug bounty hunters, red teamers, and penetration testers alike.  
 
+
 The complete writeup is available. [here](https://web.archive.org/web/20210123180246/https://0xsha.io/posts/introducing-cloudbrute-wild-hunt-on-the-clouds)
 
 
